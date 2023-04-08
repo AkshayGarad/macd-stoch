@@ -22,3 +22,6 @@ Buy and sell signals are plotted on the chart as green triangles pointing up and
 To use this strategy in TradingView, copy the Pine Script and paste it into a new script editor window. Then, click the "Add to Chart" button to apply the strategy to a chart. You can adjust the input values to customize the indicators and analyze the chart.
 
 Please note that this strategy is intended for educational purposes only and should not be used for actual trading without proper backtesting and risk management.
+
+## References
+https://www.tradingview.com/pine-script-docs/en/v4/index.html
