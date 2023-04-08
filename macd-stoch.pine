@@ -1,0 +1,35 @@
+//@version=5
+indicator("MACD + Stochastic Oscillator", shorttitle="MACD+Stoch")
+// Inputs
+fast_length = input(title="Fast Length", type=input.integer, defval=12, minval=1)
+slow_length = input(title="Slow Length", type=input.integer, defval=26, minval=1)
+signal_length = input(title="Signal Smoothing", type=input.integer, defval=9, minval=1)
+stoch_length = input(title="Stochastic Length", type=input.integer, defval=14, minval=1)
+stoch_smooth = input(title="Stochastic Smoothing", type=input.integer, defval=3, minval=1)
+stoch_overbought = input(title="Overbought Level", type=input.float, defval=80, minval=0, maxval=100)
+stoch_oversold = input(title="Oversold Level", type=input.float, defval=20, minval=0, maxval=100)
+// Calculations
+fast_ma = ema(close, fast_length)
+slow_ma = ema(close, slow_length)
+macd = fast_ma - slow_ma
+signal = ema(macd, signal_length)
+stoch = stoch(close, high, low, stoch_length)
+stoch_d = sma(stoch, stoch_smooth)
+// Plots
+plot(signal, color=color.yellow, linewidth=2, title="Signal")
+plot(macd, color=color.blue, linewidth=2, title="MACD")
+hline(0, color=color.gray, linestyle=hline.style_dashed)
+plot(stoch, color=color.red, linewidth=2, title="Stochastic")
+plot(stoch_d, color=color.green, linewidth=2, title="Stochastic Signal")
+hline(stoch_overbought, color=color.orange, linestyle=hline.style_dashed, title="Overbought")
+hline(stoch_oversold, color=color.orange, linestyle=hline.style_dashed, title="Oversold")
+// Signals
+bullish_crossover = crossover(macd, signal)
+bearish_crossover = crossunder(macd, signal)
+overbought = stoch >= stoch_overbought
+oversold = stoch <= stoch_oversold
+// Alerts
+alertcondition(bullish_crossover, title="MACD Crossed Above Signal")
+alertcondition(bearish_crossover, title="MACD Crossed Below Signal")
+alertcondition(overbought, title="Stochastic Overbought")
+alertcondition(oversold, title="Stochastic Oversold")
